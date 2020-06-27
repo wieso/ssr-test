@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": true,
+    "target": "es5",
+    "sourceMap": true,
+    "jsx": "react",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    },
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "preserveSymlinks": true,
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ]
+  },
+  "exclude": [
+    "./node_modules",
+    "./webpack",
+    "./public"
+  ],
+  "include": [
+    "./src/**/*",
+    "./types"
+  ]
+}
