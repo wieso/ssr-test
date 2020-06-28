@@ -1,11 +1,8 @@
-const webpack = require('webpack');
 const path = require('path');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
-  entry: {
-    app: './src/index.tsx',
-  },
+  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, '../public'),
     filename: '[hash].bundle.js',

@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
+import entity from 'store/entity';
 
-export interface WaypeopleState {
+export interface TestSSRState {
+  entity: number,
 }
-export default combineReducers<WaypeopleState>({});
+export default combineReducers<TestSSRState>({
+  entity,
+});

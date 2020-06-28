@@ -1,40 +1,44 @@
 const webpack = require('webpack');
+const WebpackBar = require('webpackbar');
 const merge = require('webpack-merge');
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 const common = require('./common.js');
-const envFile = require('../env/dev');
-
-const { NODE_ENV} = process.env;
+const envFile = require('../env/prod');
+const { NODE_ENV } = process.env;
 
 module.exports = merge(common, {
+  target: 'node',
+  externals: [nodeExternals()],
   mode: 'development',
-  devServer: {
-    contentBase: ['./public/'],
-    historyApiFallback: {
-      disableDotRule: true,
-    },
-    disableHostCheck: true,
+
+  entry: './src/server/index.ts',
+  output: {
+    path: path.resolve(__dirname, '../public'),
+    filename: 'index.js',
+    publicPath: '/',
   },
   plugins: [
-    new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, '../src/index.html'),
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         CONFIG: JSON.stringify(envFile),
         NODE_ENV: JSON.stringify(NODE_ENV),
       },
     }),
+    new MiniCssExtractPlugin({ filename: '[hash].bundle.css' }),
+    new WebpackBar({ name: 'server', color: 'green' }),
   ],
   module: {
     rules: [
       {
         test: /\.less$/,
         exclude: [/node_modules/],
-        loaders: [
-          'style-loader',
+        use: [
+          'isomorphic-style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -45,13 +49,12 @@ module.exports = merge(common, {
             },
           },
           {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [autoprefixer()],
-            },
-          },
-          {
             loader: 'less-loader', // compiles Less to CSS
+            options: {
+              lessOptions: {
+                javascriptEnabled: true,
+              },
+            },
           },
         ],
       },
